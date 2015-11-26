@@ -40,17 +40,8 @@ Now lets see:
     -rwxr-xr-x  1 sqz  sqz    30 Nov 26 13:22 testrun
     -rw-r--r--  1 sqz  sqz    32 Nov 26 13:22 .travis.yml
     -rw-r--r--  1 sqz  sqz     0 Nov 26 13:22 .vimrc
+
 Allright!
-
-    $ cat ~/.git/config 
-      ...
-      [remote "origin"]
-              url = https://coderofsalvation@bitbucket.org/coderofsalvation/dotfiles.g
-      ...
-
-Nice! it added my username.
-Otherwise you get the annoying extra username prompt upon pushing.
-( I know I should setup ssh, but yolo ).
 
 ## Example: language specific
 
@@ -65,6 +56,9 @@ Specifying a language upon init automates that:
       echo "compiling ${file/coffee$/js/g}";
       coffee -c "$file"; git add "${file/coffee$/js/}";
     done
+    $ git commit -m "update"
+    compiling 'foo.coffee'
+    compiling 'bar.coffee'
 
 ## Features / Breakdown
 
