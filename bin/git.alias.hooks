@@ -1,0 +1,21 @@
+#!/bin/bash 
+run(){ echo "-> $*"; [[ ! -n $DRY ]] && "$@"; } # run and show cmd
+
+echo "$0> setting up git hooks in '.hooks'"
+{
+    mkdir .hooks
+    cp .git/hooks/* .hooks/.
+    mv .git/hooks{,.bak}
+    cd .git ; ln -s ../.hooks hooks ; cd .. 
+    find .hooks/*.sample | while read file; do sed -i "s|bin/sh|bin/bash|g" "$file"; done
+    echo '[[ $(</etc/hostname) == "liveserver" && $branch != "master" ]] && { echo "only master branch on liveserver, aborting.."; exit 1; }' >> .hooks/update.sample
+    if [[ "$LANG" == "coffee" ]]; then 
+      mv .hooks/pre-commit{.sample,}
+      echo '#!/bin/bash
+        find . -name "*.coffee" | grep -v node_modules | while read file; do
+          echo "compiling ${file/coffee$/js/g}";
+          coffee -c "$file"; git add "${file/coffee$/js/}";
+        done' > .hooks/pre-commit 
+      chmod 755 .hooks/*
+    fi
+} &>/dev/null
