@@ -1,5 +1,7 @@
 #!/bin/bash 
 run(){ echo "-> $*"; [[ ! -n $DRY ]] && "$@"; } # run and show cmd
+  
+(( ${#GIT_PREFIX} > 0 )) && cd $GIT_PREFIX
 
 echo "$0> setting up git hooks in '.hooks'"
 {
@@ -10,11 +12,12 @@ echo "$0> setting up git hooks in '.hooks'"
     find .hooks/*.sample | while read file; do sed -i "s|bin/sh|bin/bash|g" "$file"; done
     echo '[[ $(</etc/hostname) == "liveserver" && $branch != "master" ]] && { echo "only master branch on liveserver, aborting.."; exit 1; }' >> .hooks/update.sample
     if [[ "$LANG" == "coffee" ]]; then 
+      mkdir lib
       mv .hooks/pre-commit{.sample,}
       echo '#!/bin/bash
         find . -name "*.coffee" | grep -v node_modules | while read file; do
           echo "compiling ${file/coffee$/js/g}";
-          coffee -c "$file"; git add "${file/coffee$/js/}";
+          coffee -c "$file" -o lib; git add "${file/coffee$/js/}";
         done' > .hooks/pre-commit 
       chmod 755 .hooks/*
     fi
