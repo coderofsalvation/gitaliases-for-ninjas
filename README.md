@@ -13,9 +13,9 @@ For all you git console ninjas out there: prevent yourself typing the same comma
 
     $ git clone http://github.com/coderofsalvation/gitaliases-for-ninjas
     $ cp bin/* ~/bin/.
-    $ git config --global alias.i ~/bin/git.alias.i
-    $ git config --global alias.p ~/bin/git.alias.p
-    $ git config --global alias.hooks ~/bin/git.alias.hooks
+    $ git config --global alias.i \!~/bin/git.alias.i
+    $ git config --global alias.p \!~/bin/git.alias.p
+    $ git config --global alias.hooks \!~/bin/git.alias.hooks
     $ cat .bashrc >> ~/.bashrc
 
 ## Example: basic
